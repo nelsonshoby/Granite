@@ -25,7 +25,11 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" render={() => <div>Home</div>} />
+        <Route
+          exact
+          path="/"
+          render={({ history }) => <div>Home{history.push("dashboard")}</div>}
+        />
         <Route exact path="/about" render={() => <div>About</div>} />
         <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
