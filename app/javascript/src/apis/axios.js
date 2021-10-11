@@ -5,6 +5,7 @@ import Toastr from "components/Common/Toastr";
 
 const DEFAULT_ERROR_NOTIFICATION = "Something went wrong!";
 
+/*Error while commiting */
 getFromLocalStorage;
 
 axios.defaults.baseURL = "/";

@@ -11,8 +11,6 @@ const Dashboard = ({ history }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  history;
-
   const fetchTasks = async () => {
     try {
       const response = await tasksApi.list();
@@ -22,6 +20,10 @@ const Dashboard = ({ history }) => {
       logger.error(error);
       setLoading(false);
     }
+  };
+
+  const showTask = slug => {
+    history.push(`/tasks/${slug}/show`);
   };
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const Dashboard = ({ history }) => {
 
   return (
     <Container>
-      <Table data={tasks} />
+      <Table data={tasks} showTask={showTask} />
     </Container>
   );
 };
