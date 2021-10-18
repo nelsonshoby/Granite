@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
-  RESTRICTED_ATTRIBUTES = %i[title user_id]
+  RESTRICTED_ATTRIBUTES = %i[title assigned_user_id]
   belongs_to :assigned_user, foreign_key: "assigned_user_id", class_name: "User"
   belongs_to :task_owner, foreign_key: "task_owner_id", class_name: "User"
   has_many :comments, dependent: :destroy
   enum progress: { pending: 0, completed: 1 }
+  enum status: { unstarred: 0, starred: 1 }
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :slug, uniqueness: true
@@ -36,5 +37,16 @@ class Task < ApplicationRecord
       if slug_changed? && self.persisted?
         errors.add(:slug, t("task.slug.immutable"))
       end
+    end
+
+    def self.of_status(progress)
+      if progress == :pending
+        starred = pending.starred.order("updated_at DESC")
+        unstarred = pending.unstarred.order("updated_at DESC")
+      else
+        starred = completed.starred.order("updated_at DESC")
+        unstarred = completed.unstarred.order("updated_at DESC")
+      end
+      starred + unstarred
     end
 end
