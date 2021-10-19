@@ -39,7 +39,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal response_json["error"], "Title can't be blank"
   end
-
   def test_creator_can_update_any_task_fields
     new_title = "#{@task.title}-(updated)"
     task_params = { task: { title: new_title, assigned_user_id: 1 } }
